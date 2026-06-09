@@ -1,57 +1,91 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { FileCode2, CheckCircle2, ArrowUpRight } from 'lucide-react';
-import { MOCK_REVIEW } from '@/lib/mock-data';
-import { ComplexityBadge } from './ComplexityBadge';
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { MOCK_REVIEW } from "@/lib/mock-data";
+import { ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { ComplexityBadge } from "./ComplexityBadge";
 
 export function CodeReviewCard() {
   return (
-    <Card className="flex flex-col h-full glass animate-slide-up" style={{ animationDelay: '0.2s' }}>
-      <CardHeader>
-        <CardTitle className="text-xl flex items-center gap-2">
-          <FileCode2 className="h-5 w-5 text-blue-500" />
-          Code Review
-        </CardTitle>
-        <CardDescription>Paste your solution for a comprehensive review.</CardDescription>
-      </CardHeader>
-      <CardContent className="flex-1 flex flex-col space-y-4">
-        <div className="flex items-center justify-between">
-          <Select defaultValue="javascript">
-            <SelectTrigger className="w-[180px] bg-white/50">
-              <SelectValue placeholder="Language" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="javascript">JavaScript</SelectItem>
-              <SelectItem value="typescript">TypeScript</SelectItem>
-              <SelectItem value="python">Python</SelectItem>
-              <SelectItem value="java">Java</SelectItem>
-              <SelectItem value="cpp">C++</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button className="bg-blue-600 hover:bg-blue-700">Review Code</Button>
-        </div>
-
-        <Textarea 
-          placeholder="// Paste your code here..." 
-          className="flex-1 min-h-[200px] font-mono text-sm bg-slate-900 text-slate-100 border-none resize-none"
-        />
-
-        <div className="mt-4 space-y-4 border-t pt-4">
-          <h4 className="text-sm font-semibold text-slate-900">Review Feedback</h4>
-          
-          <div className="bg-green-50/50 border border-green-100 p-3 rounded-lg flex gap-3 text-sm text-slate-700">
-            <CheckCircle2 className="h-5 w-5 text-green-600 shrink-0" />
-            <p>{MOCK_REVIEW.correctness}</p>
+    <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+      {/* Input Phase — Code Editor */}
+      <Card
+        className="lg:col-span-3 flex flex-col glass animate-slide-up stagger-2"
+      >
+        <CardContent className="flex-1 flex flex-col p-4 space-y-3">
+          {/* Language selector */}
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-slate-700">
+              Language
+            </label>
+            <Select defaultValue="javascript">
+              <SelectTrigger className="w-40 bg-white/60 h-9 text-sm">
+                <SelectValue placeholder="Language" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="javascript">JavaScript</SelectItem>
+                <SelectItem value="typescript">TypeScript</SelectItem>
+                <SelectItem value="python">Python</SelectItem>
+                <SelectItem value="java">Java</SelectItem>
+                <SelectItem value="cpp">C++</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          <div className="bg-amber-50/50 border border-amber-100 p-3 rounded-lg flex gap-3 text-sm text-slate-700">
-            <ArrowUpRight className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+          {/* Code textarea */}
+          <div className="space-y-1 flex-1 flex flex-col">
+            <label className="text-xs font-medium text-slate-700">
+              Your Solution
+            </label>
+            <div className="focus-glow rounded-md flex-1 flex">
+              <Textarea
+                placeholder="// Paste your code here..."
+                className="flex-1 min-h-48 font-mono text-xs bg-slate-900 text-slate-100 border-none resize-none rounded-md"
+              />
+            </div>
+          </div>
+
+          {/* Submit below code — Fitts's Law */}
+          <Button className="w-full h-9 text-xs font-semibold btn-gradient text-white border-0">
+            Review Code
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Output Phase — Review Results */}
+      <Card
+        className="lg:col-span-2 flex flex-col glass animate-slide-up sticky top-6 stagger-4"
+      >
+        <CardContent className="flex-1 p-4 space-y-3">
+          <div className="section-heading mb-3">
+            <h4 className="text-sm font-semibold text-slate-800">
+              Review Feedback
+            </h4>
+          </div>
+
+          {/* Correctness */}
+          <div className="bg-emerald-50/60 border border-emerald-100 p-2.5 rounded-lg flex gap-2.5 text-xs text-slate-700 animate-slide-up">
+            <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
+            <p className="leading-relaxed">{MOCK_REVIEW.correctness}</p>
+          </div>
+
+          {/* Improvements */}
+          <div className="bg-amber-50/60 border border-amber-100 p-2.5 rounded-lg flex gap-2.5 text-xs text-slate-700 animate-slide-up">
+            <ArrowUpRight className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
             <div className="space-y-2">
-              <p className="font-medium text-amber-800">Improvements:</p>
-              <ul className="list-disc pl-4 space-y-1 text-slate-600">
+              <p className="font-medium text-amber-800 text-xs uppercase tracking-wide">
+                Improvements
+              </p>
+              <ul className="list-disc pl-4 space-y-1.5 text-slate-600 leading-relaxed">
                 {MOCK_REVIEW.improvements.map((item, i) => (
                   <li key={i}>{item}</li>
                 ))}
@@ -59,12 +93,13 @@ export function CodeReviewCard() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4 pt-2">
+          {/* Complexity badges */}
+          <div className="flex items-center gap-3 pt-2">
             <ComplexityBadge type="Time" value={MOCK_REVIEW.timeComplexity} />
             <ComplexityBadge type="Space" value={MOCK_REVIEW.spaceComplexity} />
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

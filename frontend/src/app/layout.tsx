@@ -25,11 +25,11 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-slate-50 text-foreground">
+      <body className="min-h-full bg-slate-50 text-foreground">
         <Header />
-        <div className="flex flex-1 overflow-hidden">
-          <Sidebar />
-          <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+        <Sidebar />
+        <div className="lg:pl-48 min-h-screen">
+          <main className="overflow-y-auto p-3 md:p-4 lg:p-5">
             {children}
           </main>
         </div>

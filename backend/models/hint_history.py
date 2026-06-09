@@ -10,4 +10,5 @@ class HintHistory(BaseModel):
     problem_difficulty: Optional[str] = None
     problem_statement: Optional[str] = None
     hints: list[str] = []
+    detected_concepts: list[str] = []
     created_at: datetime = Field(default_factory=datetime.utcnow)
