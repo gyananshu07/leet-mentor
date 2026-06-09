@@ -1,6 +1,7 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import React from "react";
 
@@ -32,12 +33,12 @@ const HintsSection = ({
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="p-3 rounded-lg bg-blue-50/50 border border-blue-100 flex flex-col sm:flex-row gap-2"
+              className="p-3 rounded-lg bg-primary/5 border border-primary/20 flex flex-col sm:flex-row gap-2"
             >
-              <Skeleton className="h-5 w-14 bg-blue-200/60 shrink-0" />
+              <Skeleton className="h-5 w-14 bg-primary/20 shrink-0" />
               <div className="space-y-2 w-full pt-0.5">
-                <Skeleton className="h-4 w-full bg-slate-200/60" />
-                <Skeleton className="h-4 w-[85%] bg-slate-200/60" />
+                <Skeleton className="h-4 w-full bg-muted" />
+                <Skeleton className="h-4 w-[85%] bg-muted" />
               </div>
             </div>
           ))}
@@ -49,9 +50,9 @@ const HintsSection = ({
           {hints.slice(0, revealedCount).map((hint: string, index: number) => (
             <div
               key={index + 1}
-              className="text-sm p-3 rounded-lg bg-blue-50/50 border border-blue-100 text-slate-700 animate-in fade-in slide-in-from-top-2 duration-300 ease-out"
+              className="text-sm p-3 rounded-lg bg-primary/5 border border-primary/20 text-foreground animate-in fade-in slide-in-from-top-2 duration-300 ease-out"
             >
-              <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-blue-100 text-blue-700 text-xs font-bold mr-2 shrink-0">
+              <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-primary/20 text-primary text-xs font-bold mr-2 shrink-0">
                 {index + 1}
               </span>
               {hint}
@@ -60,20 +61,21 @@ const HintsSection = ({
 
           {/* Reveal next hint button */}
           {revealedCount < hints.length && (
-            <button
+            <Button
               type="button"
+              variant="outline"
               onClick={revealNext}
-              className="w-full flex items-center justify-center gap-1.5 py-2 text-xs font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50/50 rounded-lg border border-dashed border-blue-200 transition-all animate-fade-in"
+              className="w-full flex items-center justify-center gap-1.5 py-4 text-xs font-medium text-primary hover:text-primary/80 hover:bg-primary/10 border-dashed border-primary/30 transition-all animate-fade-in"
             >
               <ChevronDown className="h-3.5 w-3.5" />
               Reveal Hint {revealedCount + 1} of {hints.length}
-            </button>
+            </Button>
           )}
         </div>
       )}
 
       {!loading && hasGenerated && hints.length === 0 && (
-        <div className="text-sm text-slate-400 py-2">
+        <div className="text-sm text-muted-foreground py-2">
           No hints generated. Try providing more details about the problem.
         </div>
       )}

@@ -11,6 +11,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Label } from "@/components/ui/label";
 import { Link as LinkIcon, PenLine, Loader2 } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
@@ -53,42 +55,38 @@ export function ProblemAnalysisCard() {
     <Card className="flex flex-col glass animate-slide-up overflow-hidden stagger-2">
       <CardContent className="flex-1 space-y-3">
         <form onSubmit={handleAnalyze} className="space-y-3">
-          {/* Tab switcher */}
-          <div className="flex rounded-lg bg-slate-100/80 p-1 gap-1">
-            <button
-              type="button"
-              onClick={() => setInputMode("url")}
-              className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
-                inputMode === "url"
-                  ? "bg-white text-slate-900 shadow-sm ring-1 ring-slate-200/60"
-                  : "text-slate-500 hover:text-slate-700"
-              }`}
-            >
-              <LinkIcon className="h-3.5 w-3.5" />
-              Paste URL
-            </button>
-            <button
-              type="button"
-              onClick={() => setInputMode("manual")}
-              className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                inputMode === "manual"
-                  ? "bg-white text-slate-900 shadow-sm ring-1 ring-slate-200/60"
-                  : "text-slate-500 hover:text-slate-700"
-              }`}
-            >
-              <PenLine className="h-3.5 w-3.5" />
-              Enter Manually
-            </button>
-          </div>
+          <Tabs
+            value={inputMode}
+            onValueChange={(val) => setInputMode(val as InputMode)}
+            className="w-full"
+          >
+            <TabsList className="grid w-full grid-cols-2 mb-2">
+              <TabsTrigger
+                value="url"
+                className="text-xs font-medium flex gap-1.5 items-center"
+              >
+                <LinkIcon className="size-3" />
+                Paste URL
+              </TabsTrigger>
+              <TabsTrigger
+                value="manual"
+                className="text-xs font-medium flex gap-1.5 items-center"
+              >
+                <PenLine className="size-3" />
+                Enter Manually
+              </TabsTrigger>
+            </TabsList>
 
-          {/* URL Input Section */}
-          {inputMode === "url" && (
-            <div className="space-y-2 animate-fade-in">
-              <label className="text-xs font-medium text-slate-700">
+            {/* URL Input Section */}
+            <TabsContent
+              value="url"
+              className="space-y-2 mt-0 animate-in fade-in duration-300"
+            >
+              <Label className="text-xs text-foreground/80">
                 LeetCode Problem URL
-              </label>
+              </Label>
               <div className="relative focus-glow rounded-md">
-                <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/70" />
                 <Input
                   placeholder="https://leetcode.com/problems/two-sum/"
                   className="bg-white/60 pl-9 h-9 text-sm"
@@ -98,21 +96,22 @@ export function ProblemAnalysisCard() {
                   }
                 />
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-muted-foreground/80">
                 We&apos;ll automatically extract the problem title, difficulty,
                 and statement.
               </p>
-            </div>
-          )}
+            </TabsContent>
 
-          {/* Manual Input Section */}
-          {inputMode === "manual" && (
-            <div className="space-y-3 animate-fade-in">
+            {/* Manual Input Section */}
+            <TabsContent
+              value="manual"
+              className="space-y-3 mt-0 animate-in fade-in duration-300"
+            >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-slate-700">
+                  <Label className="text-xs text-foreground/80">
                     Problem Title
-                  </label>
+                  </Label>
                   <div className="focus-glow rounded-md">
                     <Input
                       placeholder="e.g. Two Sum"
@@ -128,9 +127,9 @@ export function ProblemAnalysisCard() {
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-slate-700">
+                  <Label className="text-xs text-foreground/80">
                     Difficulty
-                  </label>
+                  </Label>
                   <Select
                     value={formData.problem_difficulty || "Easy"}
                     onValueChange={(val) =>
@@ -168,9 +167,9 @@ export function ProblemAnalysisCard() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-medium text-slate-700">
+                <Label className="text-xs text-foreground/80">
                   Problem Statement
-                </label>
+                </Label>
                 <div className="focus-glow rounded-md">
                   <Textarea
                     placeholder="Paste the complete problem statement here..."
@@ -185,8 +184,8 @@ export function ProblemAnalysisCard() {
                   />
                 </div>
               </div>
-            </div>
-          )}
+            </TabsContent>
+          </Tabs>
 
           {/* Submit Button */}
           <Button

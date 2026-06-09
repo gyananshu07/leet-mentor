@@ -21,7 +21,7 @@ const ConceptsSection = ({
           {[1, 2, 3, 4].map((i) => (
             <Skeleton
               key={i}
-              className={`h-8 bg-indigo-100/60 rounded-full ${
+              className={`h-8 bg-primary/20 rounded-full ${
                 ["w-16", "w-20", "w-24", "w-28"][i - 1] || "w-20"
               }`}
             />
@@ -35,7 +35,7 @@ const ConceptsSection = ({
             <Badge
               key={index}
               variant="secondary"
-              className={`px-3 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-100/80 font-medium text-xs cursor-default transition-all hover:scale-105 animate-scale-in stagger-${
+              className={`px-3 py-1.5 bg-primary/10 text-primary hover:bg-primary/20 border border-primary/30 font-medium text-xs cursor-default transition-all hover:scale-105 animate-scale-in stagger-${
                 (index % 5) + 1
               }`}
             >
@@ -46,7 +46,7 @@ const ConceptsSection = ({
       )}
 
       {!loading && hasGenerated && concepts.length === 0 && (
-        <div className="text-sm text-slate-400 pt-1">
+        <div className="text-sm text-muted-foreground pt-1">
           No concepts detected. Try providing more details about the problem.
         </div>
       )}

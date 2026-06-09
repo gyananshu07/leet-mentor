@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { MOCK_REVIEW } from "@/lib/mock-data";
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { ComplexityBadge } from "./ComplexityBadge";
@@ -24,9 +25,9 @@ export function CodeReviewCard() {
         <CardContent className="flex-1 flex flex-col p-4 space-y-3">
           {/* Language selector */}
           <div className="space-y-1">
-            <label className="text-xs font-medium text-slate-700">
+            <Label className="text-xs text-foreground/80">
               Language
-            </label>
+            </Label>
             <Select defaultValue="javascript">
               <SelectTrigger className="w-40 bg-white/60 h-9 text-sm">
                 <SelectValue placeholder="Language" />
@@ -43,9 +44,9 @@ export function CodeReviewCard() {
 
           {/* Code textarea */}
           <div className="space-y-1 flex-1 flex flex-col">
-            <label className="text-xs font-medium text-slate-700">
+            <Label className="text-xs text-foreground/80">
               Your Solution
-            </label>
+            </Label>
             <div className="focus-glow rounded-md flex-1 flex">
               <Textarea
                 placeholder="// Paste your code here..."
@@ -67,25 +68,25 @@ export function CodeReviewCard() {
       >
         <CardContent className="flex-1 p-4 space-y-3">
           <div className="section-heading mb-3">
-            <h4 className="text-sm font-semibold text-slate-800">
+            <h4 className="text-sm font-semibold text-foreground">
               Review Feedback
             </h4>
           </div>
 
           {/* Correctness */}
-          <div className="bg-emerald-50/60 border border-emerald-100 p-2.5 rounded-lg flex gap-2.5 text-xs text-slate-700 animate-slide-up">
+          <div className="bg-emerald-50/60 border border-emerald-100 p-2.5 rounded-lg flex gap-2.5 text-xs text-foreground/90 animate-slide-up">
             <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
             <p className="leading-relaxed">{MOCK_REVIEW.correctness}</p>
           </div>
 
           {/* Improvements */}
-          <div className="bg-amber-50/60 border border-amber-100 p-2.5 rounded-lg flex gap-2.5 text-xs text-slate-700 animate-slide-up">
+          <div className="bg-amber-50/60 border border-amber-100 p-2.5 rounded-lg flex gap-2.5 text-xs text-foreground/90 animate-slide-up">
             <ArrowUpRight className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
             <div className="space-y-2">
               <p className="font-medium text-amber-800 text-xs uppercase tracking-wide">
                 Improvements
               </p>
-              <ul className="list-disc pl-4 space-y-1.5 text-slate-600 leading-relaxed">
+              <ul className="list-disc pl-4 space-y-1.5 text-muted-foreground leading-relaxed">
                 {MOCK_REVIEW.improvements.map((item, i) => (
                   <li key={i}>{item}</li>
                 ))}

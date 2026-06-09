@@ -31,8 +31,12 @@ def generate_hints(hint_input: HintInput):
                     "type": "object",
                     "properties": {
                         "hints": {"type": "array", "items": {"type": "string"}},
+                        "concepts": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                        },
                     },
-                    "required": ["hints"],
+                    "required": ["hints", "concepts"],
                     "additionalProperties": False,
                 },
             }
@@ -43,6 +47,7 @@ def generate_hints(hint_input: HintInput):
     hint_item = {
         **hint_input.model_dump(),
         "hints": data.get("hints", []),
+        "concepts": data.get("concepts", []),
     }
 
     db.hints.insert_one(hint_item)
