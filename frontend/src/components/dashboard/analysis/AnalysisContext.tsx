@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState } from "react";
 import { toast } from "sonner";
+import { apiClient } from "@/lib/api-client";
 
 export interface ProblemFormData {
   leetcode_link: string;
@@ -39,18 +40,14 @@ export function AnalysisProvider({ children }: { children: React.ReactNode }) {
     setHasGenerated(false);
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/leetcode/generate-hints",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        },
-      );
-
-      if (!response.ok)
-        throw new Error("Failed to generate analysis from server.");
-      const data = await response.json();
+      interface AnalysisResponse {
+        hints?: string[];
+        concepts?: string[];
+      }
+      
+      const data = await apiClient<AnalysisResponse>("/leetcode/generate-hints", {
+        data: formData,
+      });
 
       setHints(data.hints || []);
       setConcepts(data.concepts || []);
