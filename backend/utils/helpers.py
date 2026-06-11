@@ -17,6 +17,12 @@ def get_hint_prompt(hint_input):
         Problem Information:
         {problem_info}
 
+        Additional Rules:
+        1. If a LeetCode link is provided, first identify the problem from the link.
+        2. Infer the problem title, difficulty, and statement from your knowledge of LeetCode problems when possible.
+        3. If the problem is recognized, generate hints based on the actual problem.
+        4. If the problem cannot be confidently identified, generate hints only from the provided problem information and do not make up details.
+
         Rules:
         1. Do NOT provide the full solution.
         2. Do NOT provide code.
@@ -43,7 +49,8 @@ def get_hint_prompt(hint_input):
                 "leetcode_link": "https://leetcode.com/problems/two-sum/" 
             }}
             Output:
-            {{
+            {{  
+                "problem_title": "Two Sum",
                 "hints": [
                     "hint 1",
                     "hint 2",
@@ -54,15 +61,63 @@ def get_hint_prompt(hint_input):
 
         Output Format:
         {{
-        "hints": [
-            "hint 1",
-            "hint 2",
-            "hint 3"
-        ],
-        "concepts": [
-            "Array",
-            "Hashmap",
-            "Two-pointer"
-        ]
+            "problem_title": "Two Sum",
+            "hints": [
+                "hint 1",
+                "hint 2",
+                "hint 3"
+            ],
+            "concepts": ["Array", "Searching", "Data Structures"]
         }}
+    """
+
+
+def get_code_review_prompt(code_review_input):
+    return f"""
+        You are an expert Data Structures and Algorithms mentor.
+        
+        Your goal is to review the user's code and provide feedback on correctness, improvements, time complexity, and space complexity.
+        
+        Code Review Input:
+        {code_review_input}
+        
+        Rules:
+        1. Review the code for correctness.
+        2. Identify any improvements that can be made to the code.
+        3. Determine the time complexity of the code.
+        4. Determine the space complexity of the code.
+        5. Provide feedback in a concise and easy-to-understand manner.
+        6. Use clear and specific examples to illustrate your feedback.
+        7. Focus on problem-solving strategy, observations, edge cases, and possible approaches.
+        8. For time and space complexity do not give any explanation regarding the same.
+        
+        **Examples:**
+            Input: 
+            {{ 
+                "code": "", 
+                "language": ""
+            }}
+            Output:
+            {{  
+                "correctness": "Correct",
+                "improvements": [
+                    "improvement 1",
+                    "improvement 2",
+                    "improvement 3"
+                ],
+                "timeComplexity": "O(n)",
+                "spaceComplexity": "O(n)"
+            }}
+        
+        Output Format:
+        {{
+            "correctness": "Correct",
+            "improvements": [
+                "improvement 1",
+                "improvement 2",
+                "improvement 3"
+            ],
+            "timeComplexity": "O(n)",
+            "spaceComplexity": "O(n)",
+        }}  
     """
