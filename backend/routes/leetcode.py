@@ -1,10 +1,12 @@
 import json
 from typing import Optional
 
+from models.code_review import CodeReview
+from models.history import History
 from db.db import db
 from fastapi import APIRouter
 from pydantic import BaseModel
-from utils.helpers import get_hint_prompt, get_code_review_prompt
+from utils.helpers import get_code_review_prompt, get_hint_prompt
 from utils.openai_client import client
 
 router = APIRouter(prefix="/leetcode", tags=["LeetCode"])
@@ -47,11 +49,15 @@ def generate_hints(hint_input: HintInput):
     )
     data = json.loads(response.output_text)
 
+    history = History(
+        **hint_input.model_dump(exclude={"problem_title"}),
+        hints=data.get("hints", []),
+        concepts=data.get("concepts", []),
+        problem_title=hint_input.problem_title or data.get("problem_title", ""),
+    )
+
     hint_item = {
-        **hint_input.model_dump(),
-        "hints": data.get("hints", []),
-        "concepts": data.get("concepts", []),
-        "problem_title": data.get("problem_title", ""),
+        **history.model_dump(),
         "type": "hint",
     }
 
@@ -90,15 +96,15 @@ def review_code(code_review_input: CodeReviewInput):
     )
     data = json.loads(response.output_text)
 
-    code_review_item = {
+    code_review = CodeReview(
         **code_review_input.model_dump(),
-        "correctness": data.get("correctness", ""),
-        "improvements": data.get("improvements", []),
-        "timeComplexity": data.get("timeComplexity", ""),
-        "spaceComplexity": data.get("spaceComplexity", ""),
-    }
+        correctness=data.get("correctness", ""),
+        improvements=data.get("improvements", []),
+        timeComplexity=data.get("timeComplexity", ""),
+        spaceComplexity=data.get("spaceComplexity", ""),
+    )
 
-    db.code_review.insert_one(code_review_item)
+    db.code_review.insert_one(code_review.model_dump())
 
     return data
 

@@ -25,7 +25,7 @@ export default function RootLayout({
       <body className="min-h-full bg-slate-50 text-foreground">
         <Header />
         <Sidebar />
-        <div className="lg:pl-48 min-h-screen">
+        <div className="lg:pl-54 min-h-screen">
           <main className="overflow-y-auto p-3 md:p-4 lg:p-5">{children}</main>
         </div>
         <Toaster />

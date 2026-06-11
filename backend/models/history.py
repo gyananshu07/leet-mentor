@@ -10,7 +10,7 @@ class History(BaseModel):
     problem_difficulty: Optional[str] = None
     problem_statement: Optional[str] = None
 
-    hints: list[str] = []
-    concepts: list[str] = []
+    hints: list[str] = Field(default_factory=list)
+    concepts: list[str] = Field(default_factory=list)
 
     created_at: datetime = Field(default_factory=datetime.utcnow)
